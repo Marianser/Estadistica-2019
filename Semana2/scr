@@ -1,0 +1,397 @@
+Angelica Serrano Ardila, licencia GPL-2
+Universidad Industrial de Santander
+
+Ejercicios semana 2: Funciones y variables
+
+# Ver los set de datos para los paquetes cargado actualmente
+
+data()
+
+# Ver los set de datos para todos los paquetes instalados
+
+data(package = .packages(all.available = TRUE))
+
+Para poder acceder a algunos datos que usaremos el resto de practicas debemos primero instalar/cargar algunos paquetes.
+
+library(ape)
+library(permute)
+library(vegan)
+library(ade4)
+library(geiger)
+
+#en caso de que no se pueda con la función de library, se debe cargar los paquetes con:
+
+install.packages("permute", "vegan", ...)... 
+
+#tambien se debe cargar los paquetes de datos
+
+data("carnivora")
+> data("jackal")
+> data("BCI")
+> data("mite.env")
+> data("atlas")
+>data("corvus")
+> data("tortues")
+> data("geospiza")
+> 
+**Ejer:** ¿Qué clase de objeto es BIC? ¿Qué clase de objeto es geospiza? use la función *str* para obtener información sobre la estructura.
+
+class(BIC)
+[1] "function"
+
+str(BIC)    
+function (object, ...)
+  
+  class(geospiza)
+[1] "list"
+
+> str(geospiza)
+List of 4
+$ geospiza.tree:List of 4
+..$ edge       : num [1:26, 1:2] 15 16 17 18 19 20 21 22 23 24 ...
+..$ edge.length: num [1:26] 0.2974 0.0492 0.0686 0.134 0.1035 ...
+..$ Nnode      : int 13
+..$ tip.label  : chr [1:14] "fuliginosa" "fortis" "magnirostris" "conirostris" ...
+..- attr(*, "class")= chr "phylo"
+$ geospiza.data: num [1:13, 1:5] 4.4 4.35 4.22 4.26 4.24 ...
+..- attr(*, "dimnames")=List of 2
+.. ..$ : chr [1:13] "magnirostris" "conirostris" "difficilis" "scandens" ...
+.. ..$ : chr [1:5] "wingL" "tarsusL" "culmenL" "beakD" ...
+$ phy          :List of 4
+..$ edge       : num [1:26, 1:2] 15 16 17 18 19 20 21 22 23 24 ...
+..$ edge.length: num [1:26] 0.2974 0.0492 0.0686 0.134 0.1035 ...
+..$ Nnode      : int 13
+..$ tip.label  : chr [1:14] "fuliginosa" "fortis" "magnirostris" "conirostris" ...
+..- attr(*, "class")= chr "phylo"
+$ dat          : num [1:13, 1:5] 4.4 4.35 4.22 4.26 4.24 ...
+..- attr(*, "dimnames")=List of 2
+.. ..$ : chr [1:13] "magnirostris" "conirostris" "difficilis" "scandens" ...
+.. ..$ : chr [1:5] "wingL" "tarsusL" "culmenL" "beakD" ...
+
+# Para acceder al segundo objeto solo hay que mirar la estructura
+
+geospiza$geospiza.data
+
+# Para extraer un objeto dentro de esta tabla solo hay que asignar la posiciÃ³n
+
+geospiza$geospiza.data[,1]
+
+magnirostris  conirostris   difficilis     scandens       fortis 
+4.404200     4.349867     4.224067     4.261222     4.244008 
+fuliginosa      pallida        fusca     parvulus       pauper 
+4.132957     4.265425     3.975393     4.131600     4.232500 
+Pinaroloxias   Platyspiza   psittacula 
+4.188600     4.419686     4.235020 
+
+**Ejer:** ¿Qué tipo de variable es tarsusL y qué clase? 
+  Abra el objeto *tortues* y mire ¿Qué tipo de variables tiene y qué clase son?, haga lo mismo con el objeto *mite.env* y revise ¿Qué tipo de variable es *shurb* y qué clase es? 
+
+  class(geospiza $ tarsusl)
+[1] "NULL"
+
+help(tortues)
+#Este conjunto de datos da una descripción morfológica (4 caracteres) de 48 tortugas.
+
+
+class(tortues)
+[1] "data.frame"
+    
+#para recordar que un data frame es una lista que contiene multiples vectores nombrados que tienen la misma longitud.
+
+class(tortues$long)
+[1] "numeric"
+> class(tortues)
+[1] "data.frame"
+> class(tortues$larg)
+[1] "numeric"
+> class(tortues$haut)
+[1] "numeric"
+> class(tortues$sexe)
+[1] "factor"
+
+help("mite.env")
+> class(mite.env)
+[1] "data.frame"
+> class(mite.env$SubsDens)
+[1] "numeric"
+> class(mite.env$WatrCont)
+[1] "numeric"
+> class(mite.env$topo)
+[1] "NULL"
+> class(mite.env$shurb)
+[1] "NULL"
+> class(mite.env$substrate)
+[1] "NULL"
+
+#ejercicios de hembras y machos
+
+sex <- c ("F" , "M")
+> sex
+[1] "F" "M"
+> pop1 <- sample(x = sex, size = 50, replace = T, prob = c(0.5,0.5))
+> pop1
+[1] "F" "F" "F" "M" "M" "F" "F" "F" "M" "F" "F" "F" "F" "F" "M"
+[16] "M" "F" "F" "F" "M" "M" "F" "F" "M" "M" "M" "F" "F" "M" "M"
+[31] "F" "F" "F" "M" "F" "M" "F" "M" "M" "M" "F" "F" "F" "F" "M"
+[46] "M" "F" "M" "M" "M"
+> M <- length(which(pop1 == "M"))
+> M
+[1] 22
+> F <- length(which(pop1 == "F"))
+> F
+[1] 28
+> paste(F, "/",M,sep = "")
+[1] "28/22"
+> F/M
+[1] 1.272727
+
+*Ejer:** usando el data.frame *tortues* calcule la proporción de hembras y machos de la muestra
+
+sex <- c ("F", "M")
+
+M <- length(which(tortues == "M"))
+M
+[1] 24
+F <- length(which(tortues == "F"))
+F
+[1] 24
+
+#saber que paste Concatena vectores después de convertirlos en caracteres.
+
+paste(F,"/",M,sep = "")
+[1] "24/24"
+> F/M
+[1] 1
+
+**Ejer:** usando el data.frame *tortues* calcule la proporción entre el ancho y el largo del caparazón, genere una tabla con la información de *tortues* y la nueva variable derivada.
+ 
+medidas <- cbind(tortues$long , tortues$larg)
+medidas
+
+[,1] [,2]
+[1,]   93   74
+[2,]   94   78
+[3,]   96   80
+[4,]  101   84
+[5,]  102   85
+[6,]  103   81
+[7,]  104   83
+[8,]  106   83
+[9,]  107   82
+[10,]  112   89
+[11,]  113   88
+[12,]  114   86
+[13,]  116   90
+[14,]  117   90
+[15,]  117   91
+[16,]  119   93
+[17,]  120   89
+[18,]  120   93
+[19,]  121   95
+[20,]  125   93
+[21,]  127   96
+[22,]  128   95
+[23,]  131   95
+[24,]  135  106
+[25,]   98   81
+[26,]  103   84
+[27,]  103   86
+[28,]  105   86
+[29,]  109   88
+[30,]  123   92
+[31,]  123   95
+[32,]  133   99
+[33,]  133  102
+[34,]  133  105
+[35,]  134  100
+[36,]  136  102
+[37,]  137   98
+[38,]  138   99
+[39,]  141  105
+[40,]  147  108
+[41,]  149  107
+[42,]  153  107
+[43,]  155  115
+[44,]  155  117
+[45,]  158  115
+[46,]  159  118
+[47,]  162  124
+[48,]  177  132
+
+colnames(medidas) <- c("Largo", "Ancho")
+
+medidas
+Largo Ancho
+[1,]    93    74
+[2,]    94    78
+[3,]    96    80
+[4,]   101    84
+[5,]   102    85
+[6,]   103    81
+[7,]   104    83
+[8,]   106    83
+[9,]   107    82
+[10,]   112    89
+[11,]   113    88
+[12,]   114    86
+[13,]   116    90
+[14,]   117    90
+[15,]   117    91
+[16,]   119    93
+[17,]   120    89
+[18,]   120    93
+[19,]   121    95
+[20,]   125    93
+[21,]   127    96
+[22,]   128    95
+[23,]   131    95
+[24,]   135   106
+[25,]    98    81
+[26,]   103    84
+[27,]   103    86
+[28,]   105    86
+[29,]   109    88
+[30,]   123    92
+[31,]   123    95
+[32,]   133    99
+[33,]   133   102
+[34,]   133   105
+[35,]   134   100
+[36,]   136   102
+[37,]   137    98
+[38,]   138    99
+[39,]   141   105
+[40,]   147   108
+[41,]   149   107
+[42,]   153   107
+[43,]   155   115
+[44,]   155   117
+[45,]   158   115
+[46,]   159   118
+[47,]   162   124
+[48,]   177   132
+
+medidas_prp <- tortues$long / tortues$larg
+ancho_largo <- cbind(medidas, prp)
+ancho_largo
+
+Largo Ancho       prp
+[1,]    93    74 0.5942780
+[2,]    94    78 0.6547910
+[3,]    96    80 0.6899237
+[4,]   101    84 0.6430039
+[5,]   102    85 0.5486759
+[6,]   103    81 0.7684246
+[7,]   104    83 0.6362387
+[8,]   106    83 0.7185260
+[9,]   107    82 0.6813831
+[10,]   112    89 0.5574092
+[11,]   113    88 0.6763018
+[12,]   114    86 0.8265019
+[13,]   116    90 0.7374107
+[14,]   117    90 0.6611833
+[15,]   117    91 0.6466975
+[16,]   119    93 0.7184324
+[17,]   120    89 0.6130921
+[18,]   120    93 0.6108483
+[19,]   121    95 0.6881293
+[20,]   125    93 0.7786860
+[21,]   127    96 0.6009089
+[22,]   128    95 0.7213427
+[23,]   131    95 0.6303397
+[24,]   135   106 0.7346315
+[25,]    98    81 0.6025938
+[26,]   103    84 0.6960916
+[27,]   103    86 0.7383638
+[28,]   105    86 0.7015617
+[29,]   109    88 0.7848683
+[30,]   123    92 0.6880571
+[31,]   123    95 0.6496536
+[32,]   133    99 0.7908758
+[33,]   133   102 0.5942780
+[34,]   133   105 0.6547910
+[35,]   134   100 0.6899237
+[36,]   136   102 0.6430039
+[37,]   137    98 0.5486759
+[38,]   138    99 0.7684246
+[39,]   141   105 0.6362387
+[40,]   147   108 0.7185260
+[41,]   149   107 0.6813831
+[42,]   153   107 0.5574092
+[43,]   155   115 0.6763018
+[44,]   155   117 0.8265019
+[45,]   158   115 0.7374107
+[46,]   159   118 0.6611833
+[47,]   162   124 0.6466975
+[48,]   177   132 0.7184324
+
+**Ejer:**¿Cuántas especies de *Corvus* fueron muestreadas en la región Paleártica-Africana? Use el data.frame del género *Corvus*. ¿Qué porcentaje de *Corvus* muestreados habitan zonas abiertas
+
+freq<-table(corvus$phylog)
+freq
+
+amer orien  pale 
+6    13     9 
+
+#fueron muestreadas 9 especies de corvus en la región paleartica.
+
+habitat <- table(corvus$habitat)
+habitat
+
+clos open 
+11   17 
+
+prop.table(habitat)
+
+clos      open 
+0.3928571 0.6071429 
+
+**Ejer:** ¿Cómo luce el gráfico de frecuencias para los tipos de hábitat del género *Corvus*?
+  
+> plot (prop.table (habitad), main = "Corvus segun el tipo de habitad", ylab = "Freq de la especie", col = c ("blue", "yellow"))
+
+
+Ejer:** encuentre el máximo, así. como lo hizo para el mínimo
+
+#Preguntar por el máximo
+
+max(xsp)
+[1] 56
+
+which.max(xsp)
+Fauvette_des_jardins 
+2
+
+xsp[which.max(xsp)]
+Fauvette_des_jardins 
+56
+
+**Ejer:** Repita el ejercicio para las variables continuas de tamaño de pico y tamaño del ala en el género *Corvus*. Busque cómo cambiar colores, ejes y algunas propiedades que le permitan mejorar el diseño del histograma.
+
+#para el pico
+
+max (corvus $ bill)
+[1] 85
+min (corvus $ bill)
+[1] 45
+range (corvus $ bill)
+[1] 45 85
+
+#para las alas
+
+max (corvus $wing)
+[1] 473
+> min (corvus $ wing)
+[1] 226
+> range(corvus $wing)
+[1] 226 473
+
+#histograma para el pico
+
+hist (corvus $ bill, col = "green", main = "Pico en corvus", xlab = "cm")
+
+#Histograma para las alas
+
+hist (corvus $ wing, col = "blue", main = "Alas en corvus", xlab = "cm")
+
+Invente unos datos de medidas, como se hizo en el caso de los cráneos, y genere todo el ejercicio hasta el histograma. Busque otro tipo de distribuciones para generar las variables [ejemplo][3]. Busque en qué casos sirve cada distribución o para qué se usan.
