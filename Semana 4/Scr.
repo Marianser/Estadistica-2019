@@ -1,0 +1,107 @@
+Angelica Serrano Ardila - 2162349
+
+Semana 4. Distribuciones_Teorema
+
+#
+help(distributions)
+help("dexp")
+
+# Cual es la probabilidad de que 5 individual sean bb
+#d (probabilidad puntual)
+
+dbinom(5, size = 8, prob =0.25)
+[1] 0.02307129
+
+dbinom(0:8, size = 8, prob =0.25)
+[1] 1.001129e-01 2.669678e-01 3.114624e-01 2.076416e-01
+[5] 8.651733e-02 2.307129e-02 3.845215e-03 3.662109e-04
+[9] 1.525879e-05
+
+plot(0:8,dbinom(0:8, size = 8, prob =0.25))
+
+# ¿Cual es la probabilidad de que 5 o menos  sean bb?
+
+#p (probabilidad acumulada)
+pbinom(5, size = 8, prob =0.25)
+[1] 0.9957733
+
+#¿cual es la probabilidad de que mas de 5  sean bb
+
+
+1 - pbinom(5, size = 8, prob =0.25)
+[1] 0.004226685
+
+pbinom(5, size = 8, prob =0.25,lower.tail=FALSE)
+[1] 0.004226685
+
+# ¿Cual es el percentil 90?
+
+#q para percentiles
+
+qbinom(0.9, 8, 0.25)
+[1] 4
+
+**Ejer:** ¿cúal es la probabilidad de que 3 sean de fenotipo blanco?
+
+  pbinom(3,8,0.25)
+[1] 0.8861847
+
+#Distribución de possion 
+
+**Ejer:** ¿Cal es la probabilidad de encontrar 6 semillas por bloque?, si el terreno es más pequeño (2x2m) y el promedio de semillas por bloque es de 10
+Grafique todos los eventos de 0 a 50
+
+dpois (6, 10)
+[1] 0.06305546
+
+#Variables aleatorias o distribuciones continuas
+
+**Ejer:** A partir del tortues del paquete ade4, calcule el promedio y la desviación estándar de las alturas de caparazones de las tortugas. Haga el análisis por sexo y grafíquelo
+
+#cargar el archivo de biblioteca 
+
+library(ade4)
+
+data("tortues")
+View(tortues)
+
+#se muestra la tabla
+
+#Altura machos
+
+M_altura <- tortues$long(which(tortues$sexe == "M"))
+M <- (which(tortues$sexe == "M"))
+
+Promedio_M <- (which(M_altura/M))
+
+mean(tortues$long( which(tortues$sexe == "M")))
+
+#Altura hembras
+
+H_altura <- (tortues$long (which(tortues$sexe == "F"))
+H <- (which(tortues$sexe == "F"))
+
+Promedio_F <- (which(H_altura/F))
+
+mean(tortues$long (which(tortues$sexe =="F")))
+
+**Ejer:** Lea el artículo sobre tipos de [crecimientos poblacionales][1] y escriba el código en R que mejor describa el ejemplo de las bacterias en crecimiento exponencial
+
+
+**Ejer:** Simule 5000 peces de criadero en un tanque, todos son de la misma cohorte. Imagina que la organización en fila y quiere seleccionar 100 para calcular estadísticos de la población. Haga un muestreo sistemático y calcule los estadísticos y descriptivos vistos anteriormente. Grafique
+#Con la longitud de de los peces
+
+peces <-abs (rnorm (Muestra, 20,3))
+peces
+Sex <- c (rep ("M", 38), rep ("F", 62))
+data <- data.frame (cbind (Muestra, peces, sex))
+data
+
+#medias
+Machos <-data $ peces [which (data $ sex == "M")]
+MediaM <-mean (data $ peces [which (data $ sex == "M")])
+MediaM
+
+Hembras <- data $ peces [which(data sex == "M")]
+MediaH <- (data $ peces [which (data $ sex == "F")])
+MEdiaH
