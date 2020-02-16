@@ -1,0 +1,76 @@
+Ejercicio Final Semana 4 - descriptores y medidas.
+Angelica Serrano Ardila - 2162349
+Lizeth Dayana Villamiar Leal - 2181813
+
+**Ejer:** Lea el resumen y las gràficas del articulo de Magund 2007. Cargue los datos llamados '2007_EAA_Magud_et_al_data.csv' usando la funciÃ³n read.csv(). Estime todos los estadísticos vistos en esta práctica para las variables 'body length', 'tubercles 1b apart' y 'tarsus I length'.
+Grafique sus análisis y exportelos usando las funciones PNG o PDF. Escriba un párrafo de no más de 200 analizando lo que encontró. Tenga en cuenta que solo describir las salidas implica descripción de resultados no anílisis.
+
+#buscar el archivo 
+getwd()
+[1] "D:/Angelica/Documents"
+> setwd("ANGELICA/Estadistica/data Magnud/")
+> data4 <- read.csv("2007_EAA_Magud_et_al_data.csv", sep = "," , header = T)
+> View(data4)
+#Se abre la tabla de datos
+
+#variables
+'body length'
+'tubercles 1b apart'
+'tarsus I length'.
+
+#Para 'body length'
+
+longitud_C <- data4$A
+x <-summary(longitud_C)
+hist(longitud_C, col = blues9, border = "black", prob= TRUE, xlim = c(145,250), xlab = "Longitud Corporal", main= "Longitud Corporal")
+> lines(density(longitud_C), lwd = 2, col= "royalblue")
+
+#histograma guardado como: "Hist Longitud Corporal"
+
+#Media
+
+abline(v = x[2], col= "orange", lwd = 2)
+> abline(v = x[3], col= "blue", lwd = 4)
+> abline(v = x[4], col= "red", lwd = 2)
+> abline(v = x[5], col= "yellow", lwd = 2)
+
+# histograma guardado como Hist Tuberculos 1B
+legend(x=12.5, y= 0.4, c("Density plot","1st Qu","Media", "Mediana", "3st Qu"), col = c("chocolate3", "orange", "blue", "red", "purple"),lwd = c(2, 2, 2))
+
+#Para 'tubercles 1b apart'
+
+Tuberculos <- data4$B
+> x <-summary(Tuberculos)
+hist(Tuberculos, col = "green", border = "black", prob= TRUE, xlim = c(7,16), xlab = "Tubérculos", main= "Tubérculos 1B")
+> lines(density(Tuberculos), lwd = 2, col= "chocolate3")
+
+
+#La media 
+
+abline(v = Y[2], col= "orange", lwd = 2)
+abline(v = Y[3], col= "blue", lwd = 4)
+abline(v = Y[4], col= "red", lwd = 2)
+abline(v = Y[5], col= "yellow", lwd = 2)
+
+
+
+#Para 'tarsus I length'
+
+Longitud_T <- data4$T
+x <- summary(Longitud_T)
+hist(Longitud_T, col = "green", border = "black", prob= TRUE, xlim = c(3,10), xlab = "Longitud del torso", main= "Longitud del torso")
+
+#Histograma guardado como Hist de longitud del tarso
+
+#Media
+
+abline(v = x[2], col= "blue", lwd = 2)
+> abline(v = x[3], col= "yellow", lwd = 4)
+> abline(v = x[4], col= "purple", lwd = 2)
+> abline(v = x[5], col= "black", lwd = 2)
+
+legend(x= 2, y= 0.6, c("Density plot","1st Qu","Media", "Mediana", "3st Qu"), col = c("darkblue", "blue", "yellow", "purple", "black"),lwd = c(2, 2, 2))
+
+
+
+
