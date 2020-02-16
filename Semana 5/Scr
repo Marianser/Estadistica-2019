@@ -1,0 +1,66 @@
+Angelica Serrano Ardila - 2162349
+Semana 5_ TLC
+
+*Ejer:* Tome cualquiera de las dos poblaciones y cambie los valores de tamaño y número de muestras hasta que obtenga un histograma similar a una distribución normal.
+
+taman.muestra <- 27
+
+Nmuestras <- 15
+
+Matriz.Muestras.pob1.sinMean <- matrix(NA, nrow = Nmuestras, ncol = taman.muestra)
+
+for (i in 1:Nmuestras){
+  muestra <- runif(taman.muestra)
+  Matriz.Muestras.pob1.sinMean [i,]=muestra
+}
+
+meansX <- apply(Matriz.Muestras.pob1.sinMean, 2, mean)
+
+meansX
+[1] 0.5438021 0.4991792 0.4087646 0.5597949 0.5342943 0.5407934
+[7] 0.4489815 0.6386482 0.4370803 0.5263543 0.4189540 0.5200876
+[13] 0.4640154 0.4335538 0.5614995 0.5070292 0.5503201 0.4629136
+[19] 0.7036463 0.5373846 0.5926033 0.4659036 0.5377786 0.4297434
+[25] 0.4439191 0.5296060 0.4958911
+
+Matriz.Muestras.pob1.conMean <- cbind(Matriz.Muestras.pob1.sinMean,meansX)
+
+Matriz.Muestras.pob1.conMean
+
+par(mfrow=c(2,2))
+hist(Matriz.Muestras.pob1.sinMean[1,], main = 'muestra 1')
+hist(Matriz.Muestras.pob1.sinMean[2,], main = 'muestra 2')
+hist(Matriz.Muestras.pob1.sinMean[3,], main = 'muestra 3')
+hist(Matriz.Muestras.pob1.conMean[,taman.muestra+1], main = 'medias')
+
+*Ejer:* Simule una población con distribución normal de media 15 y sd 1. ¿Cual es el tamaño y numero de muestral, ¿donde obtenemos una distribución similar a la normal? Pruebe con Nmuestras 30 y tamaño 5 o 3, también podrá reducir la SD. Haga lo mismo con una distribución lognormal
+
+taman.muestra <- 5
+
+Nmuestras <- 30
+
+Matriz.Muestras.pob1.sinMean <- matrix(NA, nrow = Nmuestras, ncol = taman.muestra)
+
+for (i in 1:Nmuestras){
+  muestra <- rnorm(taman.muestra, 15, 1)
+  Matriz.Muestras.pob1.sinMean [i,]=muestra
+}
+
+meansX <- apply(Matriz.Muestras.pob1.sinMean, 2, mean)
+
+meansX
+[1] -0.14148564  0.14868352  0.04934638 -0.24868123  0.09626389
+
+Matriz.Muestras.pob1.conMean <- cbind(Matriz.Muestras.pob1.sinMean,meansX)
+
+*Ejer:* Aumente la SD= 10 y disminuya el número de individuos de la población, ejemplo 1000. ¿Cuanto es el mínimo de muestras a tomar, para que la media obtenida se acerque a la media de la población?
+  
+peces <- abs(rnorm(1000,10,5))
+
+promedio <- mean(peces)
+[1] 9.992401
+
+for(i in 1:length(peces)){
+  muestra<-sample(peces,[i],replace = F)
+  means<-c(means,mean(peces))
+}
