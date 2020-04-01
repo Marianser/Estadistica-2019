@@ -1,0 +1,159 @@
+Quiz Semana 15 y 16
+
+Dayana Villamizar Leal- 218281
+Angelica Serrano Ardila- 2162349
+
+##Manova
+install.packages(c("car", "ggplot2", "mvoutlier", "mvnormtest", "pastecs", "reshape")
+
+library(car)
+library(ggplot2)
+library(mvoutlier)
+library(mvnormtest)
+library(pastecs)
+library(reshape)
+library(MASS)
+library(akima)
+library(robustbase)
+
+install.packages(c("MASS", "akima", "robustbase"))
+
+datos_M <- read.csv("ANGELICA/Estadistica/Quiz-15_16/Manova.csv")
+
+View(datos_M)
+
+datos_M$Grupo <- factor(datos_M$Grupo, levels = c("Sp1", "sp2", "Sp3"), labels = c("Sp1", "Sp2", "Sp3"))
+
+contrasts(datos_M$Grupo)= contr.treatment(3, base = 3)
+sp1_vs_sp3 <- c(1,0,0)
+sp2_vs_sp3 <- c(0,1,0)
+contrasts(datos_M$Grupo) <- cbind(sp1_vs_sp3,sp2_vs_sp3)
+
+outcome = cbind(datos_M$Longitud.Pico, datos_M$g.alimento)
+modelo1 = manova(outcome ~ Grupo, data= datos_M)
+
+#pruebas estadisticas
+summary(modelo1, intercept = TRUE)
+summary(modelo1, intercept = TRUE, test = "Wilks")
+summary(modelo1, intercept = TRUE, test = "Hotelling")
+summary(modelo1, intercept = TRUE, test = "Roy")
+
+summary.aov(modelo1) # recomienda hacer anova de una sola via mostrand que el Manova fue significativo mientras que anova no
+
+##para regresión logistica
+#predecir cuantos atones mueren (0) y cuantos sobreviven(1) a un experimetno en laboratorio 
+
+Ratones <- read.csv(""ANGELICA/Estadistica/Quiz-15_16/Reg_Log.csv")
+
+View(Ratones)
+
+Rlog <- glm(formula= Resistenica ~ Edad.meses + Peso.gr + Género, Ratones, family= binomial(link= "logit"))
+
+Summary(Rlog)
+
+#prueba de significancia
+#Ho el modelo es significativo (al menos un coeficiente es diferente de cero.)
+#Ha es que el modelo no es significativa
+
+#Estadisticos
+with(RLOG, null.deviance - deviance)
+
+#valor p para la prueba
+with(RLOG, pchisq(null.deviance - deviance, 3, lower.tail= F))
+
+
+##Para regresión Multiple
+ RatonesR <- read.csv("ANGELICA/Estadistica/Quiz-15_16/Reg.Multiple.csv")
+
+View(RatonesR)
+
+#establecer el modelo
+modeloRM <- lm(Partos ~ Peso.gr + Edad.meses)
+Anova <- aov(modeloRM)
+Anova
+Summary(Anova)
+
+#en caso de que el R no fuera signifitivo se deben elimiana las variables
+
+
+##para analisis factorial
+
+#para analisis del discrimianteç
+ discri <- read.csv("ANGELICA/Estadistica/Quiz-15_16/Manova.csv")
+View(discri)
+
+ModeloLP <- lm(Longitud.Pico ~ Grupo, data= discri)
+
+ModeloGA <- lm(g.alimento ~ Grupo, data= discri)
+
+Summary.lm(ModeloLP)
+
+AD <- lda(Grupo ~ Longitud.Pico + g.alimento, data= discri)
+AD
+predict(AD)
+plot(AD)
+
+##para Cluster
+data("iris")
+matas <- iris[,c(1:4)]
+head(matas)
+
+matasC <- hclust(dist(matas), method = "single")
+plot(matasC)
+
+##Para k medias
+#Estandarizar los datos usando scale
+
+matasE <- scale(matas)
+head(matasE)
+
+matasE.Km <- kmeans(matasE, 3)
+
+plot(iris$Sepal.Length, iris$Sepal.Width, col= matasE.Km$cluster, xlab= "X", ylab="y")
+
+aggregate(iris[, 1:4], by = list(matasE.Km$cluster, mean))
+
+#para 8.	ESCALAMIENTO MULTIDIMENCIONAL
+
+install.packages("vegan")
+install.packages(c("permute", "lattice"))
+library(vegan)
+
+# Consideremos las distancias entre cinco objetos
+datos8 <- matrix(c(0, 1, 2, 4, 5, 1, 0, 2.5, 4, 5, 2, 2.5, 0, 4, 5, 4, 4, 4, 0, 1.2, 5, 5, 5, 1.2, 0), nrow = 5)
+rownames(datos8) <- colnames(datos8) <- c("Matematicas", "Biologia", "Materias", "Ingles", "Sociales")
+datos8
+
+modeloMater <- cmdscale(datos8)
+modeloMater
+
+distancia <- dist(modeloMater)
+
+plot(modeloMater, type = "n", xlab = "grupo. 1", ylab = "grupo. 2")
+text(modeloMater[, 1], modeloMater[, 2], labels = rownames(modeloMater), cex = 0.8)
+
+valores <- cmdscale(distancia, eig = T)
+valores$eig
+valores$GOF
+
+##correlación 
+install.packages("readxl")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("GGally")
+install.packages("Hmisc")
+install.packages("corrplot")
+install.packages("PerformanceAnalytics")
+
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(Hmisc)
+library(corrplot)
+library(PerformanceAnalytics)
+
+round(cor(corre),2)
+rcorr(as.matrix(base))
+
+
